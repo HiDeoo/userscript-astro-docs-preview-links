@@ -3,13 +3,14 @@
 ;(function () {
   'use strict'
 
-  const comments = [...document.querySelectorAll('.pull-discussion-timeline .timeline-comment')]
+  const docsPullRequestRegex = /^https:\/\/github\.com\/withastro\/starlight\/pull\/\d+\/?$/
 
   /**
+   * @param {Element[]} comments
    * @param {string} author
    * @returns {Element[]}
    */
-  function getCommentsFromAuthor(author) {
+  function getCommentsFromAuthor(comments, author) {
     return comments.filter((comment) =>
       isElementTextEqual(comment.querySelector('.timeline-comment-header .author'), author),
     )
@@ -38,64 +39,86 @@
    * @returns {boolean}
    */
   function isRootLocale(locale) {
-    return window.location.href.startsWith('https://github.com/withastro/starlight/pull/') && locale === 'en'
+    return location.href.startsWith('https://github.com/withastro/starlight/pull/') && locale === 'en'
   }
 
-  const deployComment = getCommentsFromAuthor('netlify').find((comment) => {
-    const title = comment.querySelector('.comment-body > h3:first-child')
-    return title instanceof HTMLElement && title.innerText.includes('Deploy Preview for')
-  })
-  if (!deployComment) return
-
-  const deployPreviewRow = [...deployComment.querySelectorAll('.comment-body td')].find((cell) =>
-    isElementTextEqual(cell, '😎 Deploy Preview'),
-  )?.parentElement
-  if (!deployPreviewRow) return
-
-  const deployPreviewUrl = deployPreviewRow.querySelector('a')?.href
-  if (!deployPreviewUrl) return
-
-  const lunariaComment = getCommentsFromAuthor('astrobot-houston').find((comment) =>
-    isElementTextEqual(comment.querySelector('.comment-body > h2:first-child'), 'Lunaria Status Overview'),
-  )
-  if (!lunariaComment) return
-
-  const trackedFileTable = [...lunariaComment.querySelectorAll('.comment-body > h3')].find((heading) =>
-    isElementTextEqual(heading, 'Tracked Files'),
-  )?.nextElementSibling
-  if (!trackedFileTable) return
-  const trackedFilesRows = [...trackedFileTable.querySelectorAll('table > tbody > tr')]
-
-  /** @type {{ locale: string, path: string }[]} */
-  const trackedFiles = []
-
-  for (const row of trackedFilesRows) {
-    const [locale, path] = [...row.querySelectorAll('td')].map((cell) => cell.innerText)
-    if (!locale || !path) continue
-    trackedFiles.push({ locale: locale, path })
+  /**
+   * @param {string} url
+   * @returns {boolean}
+   */
+  function isDocsPullRequestPage(url) {
+    return docsPullRequestRegex.test(url)
   }
 
-  if (trackedFiles.length === 0) return
+  function addLinks() {
+    const comments = [...document.querySelectorAll('.pull-discussion-timeline .timeline-comment')]
 
-  const linksRow = document.createElement('tr')
+    const deployComment = getCommentsFromAuthor(comments, 'netlify').find((comment) => {
+      const title = comment.querySelector('.comment-body > h3:first-child')
+      return title instanceof HTMLElement && title.innerText.includes('Deploy Preview for')
+    })
+    if (!deployComment) return
 
-  const linksTitleCell = document.createElement('td')
-  linksTitleCell.setAttribute('align', 'center')
-  linksTitleCell.innerText = '⚡ Tracked links'
+    const deployPreviewRow = [...deployComment.querySelectorAll('.comment-body td')].find((cell) =>
+      isElementTextEqual(cell, '😎 Deploy Preview'),
+    )?.parentElement
+    if (!deployPreviewRow) return
 
-  const linksContentCell = document.createElement('td')
-  linksContentCell.append(
-    ...trackedFiles.flatMap(({ locale, path }, index) => {
-      const pathname = `${isRootLocale(locale) ? '' : `${locale}/`}${stripExtension(path)}`
+    const deployPreviewUrl = deployPreviewRow.querySelector('a')?.href
+    if (!deployPreviewUrl) return
 
-      const link = document.createElement('a')
-      link.href = deployPreviewUrl + pathname
-      link.innerText = pathname
+    const lunariaComment = getCommentsFromAuthor(comments, 'astrobot-houston').find((comment) =>
+      isElementTextEqual(comment.querySelector('.comment-body > h2:first-child'), 'Lunaria Status Overview'),
+    )
+    if (!lunariaComment) return
 
-      return index < trackedFiles.length - 1 ? [link, document.createElement('br')] : link
-    }),
-  )
+    const trackedFileTable = [...lunariaComment.querySelectorAll('.comment-body > h3')].find((heading) =>
+      isElementTextEqual(heading, 'Tracked Files'),
+    )?.nextElementSibling
+    if (!trackedFileTable) return
+    const trackedFilesRows = [...trackedFileTable.querySelectorAll('table > tbody > tr')]
 
-  linksRow.append(linksTitleCell, linksContentCell)
-  deployPreviewRow.after(linksRow)
+    /** @type {{ locale: string, path: string }[]} */
+    const trackedFiles = []
+
+    for (const row of trackedFilesRows) {
+      const [locale, path] = [...row.querySelectorAll('td')].map((cell) => cell.innerText)
+      if (!locale || !path) continue
+      trackedFiles.push({ locale: locale, path })
+    }
+
+    if (trackedFiles.length === 0) return
+
+    const linksRow = document.createElement('tr')
+
+    const linksTitleCell = document.createElement('td')
+    linksTitleCell.setAttribute('align', 'center')
+    linksTitleCell.innerText = '⚡ Tracked links'
+
+    const linksContentCell = document.createElement('td')
+    linksContentCell.append(
+      ...trackedFiles.flatMap(({ locale, path }, index) => {
+        const pathname = `${isRootLocale(locale) ? '' : `${locale}/`}${stripExtension(path)}`
+
+        const link = document.createElement('a')
+        link.href = deployPreviewUrl + pathname
+        link.innerText = pathname
+
+        return index < trackedFiles.length - 1 ? [link, document.createElement('br')] : link
+      }),
+    )
+
+    linksRow.append(linksTitleCell, linksContentCell)
+    deployPreviewRow.after(linksRow)
+  }
+
+  function run() {
+    if (isDocsPullRequestPage(location.href)) {
+      addLinks()
+    }
+  }
+
+  run()
+
+  document.addEventListener('turbo:render', () => run())
 })()
