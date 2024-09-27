@@ -20,7 +20,7 @@
 
 ## Getting Started
 
-Want to get started immediately? [Install on Greasy Fork](https://github.com/HiDeoo/userscript-astro-docs-preview-links)!
+Want to get started immediately? [Install on Greasy Fork](https://greasyfork.org/en/scripts/510465-astro-docs-preview-links)!
 
 ## License
 
