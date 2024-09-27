@@ -1,4 +1,18 @@
-// TODO(HiDeoo) userscript comments
+// ==UserScript==
+// @name         Astro Docs Preview Links
+// @version      0.0.1
+// @namespace    https://hideoo.dev/
+// @description  Adds preview links of tracked files in GitHub pull requests to the Astro and Starlight documentation.
+// @tag          productivity
+// @license      MIT
+// @author       HiDeoo (https://github.com/hideoo)
+// @homepageURL  https://github.com/HiDeoo/userscript-astro-docs-preview-links
+// @supportURL   https://github.com/HiDeoo/userscript-astro-docs-preview-links/issues
+// @iconURL      https://raw.githubusercontent.com/primer/octicons/refs/heads/main/icons/link-24.svg
+//
+// @match        https://github.com/*
+// @run-at       document-end
+// ==/UserScript==
 
 ;(function () {
   'use strict'
