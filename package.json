@@ -26,7 +26,14 @@
   "private": true,
   "sideEffects": false,
   "keywords": [
-    "// TODO(HiDeoo) "
+    "userscript",
+    "github",
+    "pull-request",
+    "preview",
+    "link",
+    "astro",
+    "starlight",
+    "documentation"
   ],
   "homepage": "https://github.com/HiDeoo/userscript-astro-docs-preview-links",
   "repository": {
