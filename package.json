@@ -1,0 +1,51 @@
+{
+  "name": "userscript-astro-docs-preview-links",
+  "version": "0.0.1",
+  "license": "MIT",
+  "description": "Adds preview links of tracked files in GitHub pull requests to the Astro and Starlight documentation.",
+  "author": "HiDeoo <github@hideoo.dev> (https://hideoo.dev)",
+  "type": "module",
+  "scripts": {
+    "lint": "prettier -c --cache . && eslint . --cache --max-warnings=0 && tsc --noEmit",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@hideoo/eslint-config": "^3.0.1",
+    "@hideoo/prettier-config": "^2.0.0",
+    "@hideoo/tsconfig": "^2.0.1",
+    "eslint": "^8.57.1",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
+    "prettier": "^3.3.3",
+    "typescript": "^5.6.2"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "pnpm@9.11.0",
+  "private": true,
+  "sideEffects": false,
+  "keywords": [
+    "userscript",
+    "github",
+    "pull-request",
+    "preview",
+    "link",
+    "astro",
+    "starlight",
+    "documentation"
+  ],
+  "homepage": "https://github.com/HiDeoo/userscript-astro-docs-preview-links",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HiDeoo/userscript-astro-docs-preview-links.git"
+  },
+  "bugs": "https://github.com/HiDeoo/userscript-astro-docs-preview-links/issues",
+  "prettier": "@hideoo/prettier-config",
+  "lint-staged": {
+    "*": [
+      "prettier -w -u --cache",
+      "eslint --cache --no-warn-ignored --max-warnings=0"
+    ]
+  }
+}
