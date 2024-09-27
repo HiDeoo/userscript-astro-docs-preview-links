@@ -1,9 +1,9 @@
 <div align="center">
-  <h1>userscript-astro-docs-preview-links 🚧</h1>
-  <p>userscript-astro-docs-preview-links description</p>
+  <h1>User script: Astro Docs Preview Links 🔗</h1>
+  <p>Adds preview links of tracked files in GitHub pull requests to the Astro and Starlight documentation.</p>
   <p>
-    <a href="https://dummyimage.com/520x350/121212/cdc8be.png&text=screenshot" title="Screenshot of userscript-astro-docs-preview-links">
-      <img alt="Screenshot of userscript-astro-docs-preview-links" src="https://dummyimage.com/520x350/121212/cdc8be.png&text=screenshot" width="520" />
+    <a href="https://github.com/user-attachments/assets/bed6c10a-0d68-4162-9d70-66ef2c1c4a46" title="Screenshot of userscript-astro-docs-preview-links">
+      <img alt="Screenshot of userscript-astro-docs-preview-links" src="https://github.com/user-attachments/assets/bed6c10a-0d68-4162-9d70-66ef2c1c4a46" width="520" />
     </a>
   </p>
 </div>
@@ -18,12 +18,9 @@
   <br />
 </div>
 
-## Features
+## Getting Started
 
-userscript-astro-docs-preview-links presentation.
-
-- userscript-astro-docs-preview-links feature 1
-- userscript-astro-docs-preview-links feature 2
+Want to get started immediately? [Install on Greasy Fork](https://github.com/HiDeoo/userscript-astro-docs-preview-links)!
 
 ## License
 
