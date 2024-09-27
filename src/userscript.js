@@ -3,7 +3,7 @@
 ;(function () {
   'use strict'
 
-  const docsPullRequestRegex = /^https:\/\/github\.com\/withastro\/starlight\/pull\/\d+\/?$/
+  const docsPullRequestRegex = /^https:\/\/github\.com\/withastro\/(?:docs|starlight)\/pull\/\d+\/?$/
 
   /**
    * @param {Element[]} comments
@@ -98,11 +98,11 @@
     const linksContentCell = document.createElement('td')
     linksContentCell.append(
       ...trackedFiles.flatMap(({ locale, path }, index) => {
-        const pathname = `${isRootLocale(locale) ? '' : `${locale}/`}${stripExtension(path)}`
+        const pathname = `${isRootLocale(locale) ? '' : `${locale}/`}${stripExtension(path)}/`
 
         const link = document.createElement('a')
         link.href = deployPreviewUrl + pathname
-        link.innerText = pathname
+        link.innerText = `/${pathname}`
 
         return index < trackedFiles.length - 1 ? [link, document.createElement('br')] : link
       }),
