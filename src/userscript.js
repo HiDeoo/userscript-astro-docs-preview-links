@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Astro Docs Preview Links
-// @version      0.1.0
+// @version      0.1.1
 // @namespace    https://hideoo.dev/
 // @description  Adds preview links of tracked files in GitHub pull requests to the Astro and Starlight documentation.
 // @tag          productivity
