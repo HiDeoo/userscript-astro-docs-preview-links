@@ -90,9 +90,7 @@
     )
     if (!lunariaComment) return false
 
-    const trackedFileTable = [...lunariaComment.querySelectorAll('.comment-body > h3')].find((heading) =>
-      isElementTextEqual(heading, 'Tracked Files'),
-    )?.nextElementSibling
+    const trackedFileTable = lunariaComment.querySelector('.comment-body > h3 ~ markdown-accessiblity-table')
     if (!trackedFileTable) return true
     const trackedFilesRows = [...trackedFileTable.querySelectorAll('table > tbody > tr')]
 
