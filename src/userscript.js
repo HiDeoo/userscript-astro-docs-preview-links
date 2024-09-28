@@ -111,6 +111,7 @@
 
     const linksTitleCell = document.createElement('td')
     linksTitleCell.setAttribute('align', 'center')
+    linksTitleCell.setAttribute('style', 'vertical-align: top;')
     linksTitleCell.innerText = '⚡ Tracked links'
 
     const linksContentCell = document.createElement('td')
