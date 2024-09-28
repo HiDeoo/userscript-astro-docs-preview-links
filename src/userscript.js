@@ -18,6 +18,7 @@
   'use strict'
 
   const docsPullRequestRegex = /^https:\/\/github\.com\/withastro\/(?:docs|starlight)\/pull\/\d+\/?$/
+  const validExtensionsRegex = /\.mdx?$/
 
   /**
    * @param {Element[]} comments
@@ -100,7 +101,7 @@
 
     for (const row of trackedFilesRows) {
       const [locale, path] = [...row.querySelectorAll('td')].map((cell) => cell.innerText)
-      if (!locale || !path) continue
+      if (!locale || !path || !validExtensionsRegex.test(path)) continue
       trackedFiles.push({ locale: locale, path })
     }
 
