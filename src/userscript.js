@@ -115,7 +115,9 @@
     const linksContentCell = document.createElement('td')
     linksContentCell.append(
       ...trackedFiles.flatMap(({ locale, path }, index) => {
-        const pathname = `${isRootLocale(locale) ? '' : `${locale}/`}${stripExtension(path)}/`
+        let pathname = `${isRootLocale(locale) ? '' : `${locale}/`}${stripExtension(path)}/`
+
+        if (pathname.endsWith('index/')) pathname = pathname.replace(/index\/$/, '')
 
         const link = document.createElement('a')
         link.href = deployPreviewUrl + pathname
