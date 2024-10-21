@@ -94,16 +94,16 @@
     if (!trackedFileTable) return true
     const trackedFilesRows = [...trackedFileTable.querySelectorAll('table > tbody > tr')]
 
-    /** @type {{ locale: string, path: string }[]} */
-    const trackedFiles = []
+    /** @type {Set<string>} */
+    const trackedFiles = new Set()
 
     for (const row of trackedFilesRows) {
       const [locale, path] = [...row.querySelectorAll('td')].map((cell) => cell.innerText)
       if (!locale || !path || !validExtensionsRegex.test(path)) continue
-      trackedFiles.push({ locale: locale, path })
+      trackedFiles.add(`${isRootLocale(locale) ? '' : `${locale}/`}${stripExtension(path)}/`)
     }
 
-    if (trackedFiles.length === 0) return true
+    if (trackedFiles.size === 0) return true
 
     const linksRow = document.createElement('tr')
 
@@ -114,14 +114,14 @@
 
     const linksContentCell = document.createElement('td')
     linksContentCell.append(
-      ...trackedFiles.flatMap(({ locale, path }, index) => {
-        const pathname = `${isRootLocale(locale) ? '' : `${locale}/`}${stripExtension(path)}/`
+      ...[...trackedFiles].flatMap((pathname, index) => {
+        if (pathname.endsWith('index/')) pathname = pathname.replace(/index\/$/, '')
 
         const link = document.createElement('a')
         link.href = deployPreviewUrl + pathname
         link.innerText = `/${pathname}`
 
-        return index < trackedFiles.length - 1 ? [link, document.createElement('br')] : link
+        return index < trackedFiles.size - 1 ? [link, document.createElement('br')] : link
       }),
     )
 
