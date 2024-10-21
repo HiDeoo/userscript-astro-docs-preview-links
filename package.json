@@ -1,6 +1,6 @@
 {
   "name": "userscript-astro-docs-preview-links",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "license": "MIT",
   "description": "Adds preview links of tracked files in GitHub pull requests to the Astro and Starlight documentation.",
   "author": "HiDeoo <github@hideoo.dev> (https://hideoo.dev)",
