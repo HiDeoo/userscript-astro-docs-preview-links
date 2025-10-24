@@ -62,7 +62,7 @@
    * @returns {boolean}
    */
   function isDocsPullRequestPage(url) {
-    return docsPullRequestRegex.test(url)
+    return docsPullRequestRegex.test(url.split(/[#?]/)[0] ?? url)
   }
 
   /**
