@@ -98,9 +98,20 @@
     const trackedFiles = new Set()
 
     for (const row of trackedFilesRows) {
-      const [locale, path] = [...row.querySelectorAll('td')].map((cell) => cell.innerText)
-      if (!locale || !path || !validExtensionsRegex.test(path)) continue
-      trackedFiles.add(`${isRootLocale(locale) ? '' : `${locale}/`}${stripExtension(path)}/`)
+      const cells = [...row.querySelectorAll('td')]
+      let path
+
+      if (cells.length === 2) {
+        // Lunaria versions >= 0.2.0 merge the locale into the displayed path.
+        const href = cells[0]?.querySelector('a')?.href
+        if (href) path = decodeURIComponent(href).split('/src/content/docs/')[1]
+      } else {
+        const [locale, localePath] = cells.map((cell) => cell.innerText)
+        if (locale && localePath) path = `${isRootLocale(locale) ? '' : `${locale}/`}${localePath}`
+      }
+
+      if (!path || !validExtensionsRegex.test(path)) continue
+      trackedFiles.add(`${stripExtension(path)}/`)
     }
 
     if (trackedFiles.size === 0) return true
